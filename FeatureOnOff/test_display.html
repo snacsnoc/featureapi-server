@@ -2,22 +2,39 @@
 <h2 class="changeme">Lorem ipsum dolor sit amet</h2>
 
 <script>
-class FeatureApi {
-  async display(featureHash) {
-    var myHeaders = new Headers();
-    myHeaders.append("User-Agent", navigator.userAgent);
-    myHeaders.append("Referer", window.location.href);
-    myHeaders.append("Accept-Language", navigator.language);
+class HttpController {
+  constructor() {
+    this.myHeaders = new Headers();
+    this.myHeaders.append("User-Agent", navigator.userAgent);
+    this.myHeaders.append("Referer", window.location.href);
+    this.myHeaders.append("Accept-Language", navigator.language);
 
-    var requestOptions = {
+    this.requestOptions = {
       method: 'GET',
-      headers: myHeaders,
+      headers: this.myHeaders,
       redirect: 'follow'
     };
+  }
 
+  async get(url) {
     try {
-      const response = await fetch(`http://127.0.0.1:8000/api/v1/gs?feature_hash=${featureHash}`, requestOptions);
+      const response = await fetch(url, this.requestOptions);
       const result = await response.text();
+      return result;
+    } catch (error) {
+      console.log('error', error);
+    }
+  }
+}
+
+class FeatureApi {
+  constructor() {
+    this.httpController = new HttpController();
+  }
+
+  async display(featureHash) {
+    try {
+      const result = await this.httpController.get(`http://127.0.0.1:8000/api/v1/gs?feature_hash=${featureHash}`);
       const parsedResult = JSON.parse(result);
       if (parsedResult.message) {
         eval(parsedResult.message);
