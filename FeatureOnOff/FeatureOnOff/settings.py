@@ -46,7 +46,6 @@ MIDDLEWARE = [
     "django.contrib.sessions.middleware.SessionMiddleware",
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
-    "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
@@ -125,22 +124,18 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-
-CSRF_TRUSTED_ORIGINS = ['http://*.127.0.0.1','http://localhost:63342']
-
 CORS_ORIGIN_ALLOW_ALL = False
-CORS_ORIGIN_WHITELIST = [
-'http://localhost:63342',
-'http://127.0.0.1:8000'
-]
+CORS_ORIGIN_WHITELIST = ["http://localhost:63342", "http://127.0.0.1:8000"]
 
+# TODO: Compare decompression against Zstd & lz4
+# zst most likely faster with cost of higher cpu
 CACHES = {
     "default": {
-        'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': 'redis://127.0.0.1:6379/0',
-        'TIMEOUT': None,
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/0",
+        "TIMEOUT": None,
         "OPTIONS": {
             "COMPRESSOR": "django_redis.compressors.zlib.ZlibCompressor",
-        }
+        },
     }
 }
